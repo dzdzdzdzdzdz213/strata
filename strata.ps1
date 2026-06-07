@@ -1,3 +1,5 @@
+﻿#$OutputEncoding = [System.Text.UTF8Encoding]::new()
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 # strata - Digital Stratigraphy Engine
 # Examines a filesystem as geological strata and produces
 # a visual "core sample" of your digital sediment layers.
