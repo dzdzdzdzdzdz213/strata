@@ -1,49 +1,4 @@
-﻿#$OutputEncoding = [System.Text.UTF8Encoding]::new()
-[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
-# strata - Digital Stratigraphy Engine
-# Examines a filesystem as geological strata and produces
-# a visual "core sample" of your digital sediment layers.
-# No two filesystems produce the same cross-section.
-
-param(
-    [string]$Path = (Get-Location).Path,
-    [int]$Depth = 3,
-    [switch]$Animate
-)
-
-$ESC = "$([char]27)"
-$RESET = "${ESC}[0m"
-$CLS = "${ESC}[2J${ESC}[H"
-
-# Mineral map: file extensions -> color + symbol
-$minerals = @{
-    '.ps1'   = @{r=0;   g=255; b=128; sym='Ψ'; name='Verdant Mica'}
-    '.py'    = @{r=255; g=200; b=0;   sym='π'; name='Pyrite Gold'}
-    '.js'    = @{r=255; g=220; b=80;  sym='Ω'; name='Amber Resin'}
-    '.ts'    = @{r=100; g=180; b=255; sym='τ'; name='Azure Feldspar'}
-    '.rs'    = @{r=255; g=100; b=100; sym='ρ'; name='Rust Hematite'}
-    '.go'    = @{r=0;   g=200; b=255; sym='γ'; name='Cyanite'}
-    '.c'     = @{r=180; g=180; b=255; sym='ξ'; name='Lunar Quartz'}
-    '.cpp'   = @{r=200; g=150; b=255; sym='φ'; name='Amethyst'}
-    '.cs'    = @{r=130; g=200; b=130; sym='χ'; name='Jade'}
-    '.html'  = @{r=255; g=120; b=80;  sym='◈'; name='Terracotta'}
-    '.css'   = @{r=80;  g=160; b=255; sym='◉'; name='Sapphire Dust'}
-    '.json'  = @{r=200; g=200; b=200; sym='◇'; name='Calcite'}
-    '.xml'   = @{r=200; g=200; b=150; sym='◆'; name='Sandstone'}
-    '.md'    = @{r=255; g=255; b=200; sym='■'; name='Chalk'}
-    '.txt'   = @{r=200; g=200; b=180; sym='□'; name='Shale'}
-    '.exe'   = @{r=255; g=80;  b=80;  sym='●'; name='Magma Core'}
-    '.dll'   = @{r=200; g=100; b=100; sym='◉'; name='Basalt'}
-    '.png'   = @{r=255; g=100; b=200; sym='◆'; name='Rhodonite'}
-    '.jpg'   = @{r=200; g=255; b=100; sym='◈'; name='Olivine'}
-    '.gif'   = @{r=150; g=255; b=150; sym='◇'; name='Malachite'}
-    '.zip'   = @{r=180; g=140; b=100; sym='▣'; name='Sediment'}
-    '.git'   = @{r=200; g=100; b=50;  sym='≈'; name='Iron Vein'}
-}
-
-$defaultMineral = @{r=150; g=150; b=150; sym='·'; name='Dust'}
-
-function Get-Mineral($ext) {
+﻿function Get-Mineral($ext) {
     if ($minerals.ContainsKey($ext)) { return $minerals[$ext] }
     return $defaultMineral
 }
@@ -51,7 +6,7 @@ function Get-Mineral($ext) {
 function Get-FG($r, $g, $b) { "${ESC}[38;2;$r;$g;${b}m" }
 
 function Get-FileData {
-    param([string]$dir, [int]$depth)
+    
     $files = @()
     if ($depth -le 0) { return $files }
 
